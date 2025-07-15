@@ -10,7 +10,7 @@ env:
 
 jobs:
   run-tests:
-    runs-on: windows-latest
+    runs-on: [self-hosted, windows]
 
     steps:
       - name: Checkout code
