@@ -9,29 +9,30 @@ env:
   PASSWORD: ${{ secrets.LOGIN_PASSWORD }}
 
 jobs:
-  run-tests:
-    runs-on: [self-hosted, windows]
+  close-java-processes:
+    uses: ./.github/workflows/ClosePendingJava_Reusable.yml@main
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+    # runs-on: [self-hosted, windows]
 
-      - name: Close pending Java processes (remote)
-        uses: meer1616/Testing-Jmeter/.github/workflows/ClosePendingJava_Reusable.yml@main
-        # shell: pwsh
-        # run: |
-        #   Write-Host "Closing pending Java processes on TARGET_MACHINE: ${{ env.TARGET_MACHINE }}"
-        #   Write-Host "Username : ${{ env.USERNAME }}"
-        #   $secpasswd = ConvertTo-SecureString "${{ env.LOGIN_PASSWORD }}" -AsPlainText -Force
-        #   $creds = New-Object System.Management.Automation.PSCredential ("${{ env.USERNAME }}", $secpasswd)
+    # steps:
+    #   - name: Checkout code
+    #     uses: actions/checkout@v4
 
-        #   $scriptPath = "${{ env.POWERSHELL_SCRIPT_PATH }}\Jmeter\JmeterServer.ps1"
+    #   - name: Close pending Java processes (remote)
+    # shell: pwsh
+    # run: |
+    #   Write-Host "Closing pending Java processes on TARGET_MACHINE: ${{ env.TARGET_MACHINE }}"
+    #   Write-Host "Username : ${{ env.USERNAME }}"
+    #   $secpasswd = ConvertTo-SecureString "${{ env.LOGIN_PASSWORD }}" -AsPlainText -Force
+    #   $creds = New-Object System.Management.Automation.PSCredential ("${{ env.USERNAME }}", $secpasswd)
 
-        #   Invoke-Command -ComputerName "${{ env.TARGET_MACHINE }}" -Credential $creds -ScriptBlock {
-        #       . $using:scriptPath
-        #       CloselocalProcess
-        #   } -Authentication Negotiate -ErrorAction Continue
-        # continue-on-error: true
+    #   $scriptPath = "${{ env.POWERSHELL_SCRIPT_PATH }}\Jmeter\JmeterServer.ps1"
+
+    #   Invoke-Command -ComputerName "${{ env.TARGET_MACHINE }}" -Credential $creds -ScriptBlock {
+    #       . $using:scriptPath
+    #       CloselocalProcess
+    #   } -Authentication Negotiate -ErrorAction Continue
+    # continue-on-error: true
   # use actions/checkout@v4
   # try to use the $TARGET_MACHINE variable not secret.Varname
   # use jobs, multi-job strategies
