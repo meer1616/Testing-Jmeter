@@ -19,7 +19,7 @@ jobs:
       - name: Close pending Java processes (remote)
         shell: pwsh
         run: |
-          Write-Host "Closing pending Java processes on ${{TARGET_MACHINE}}"
+          Write-Host "Closing pending Java processes on ${{ TARGET_MACHINE }}"
           $secpasswd = ConvertTo-SecureString "${{ secrets.LOGIN_PASSWORD }}" -AsPlainText -Force
           $creds = New-Object System.Management.Automation.PSCredential ("${{ secrets.LOGIN_USER }}", $secpasswd)
 
