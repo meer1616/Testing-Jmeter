@@ -32,13 +32,13 @@ jobs:
         #       CloselocalProcess
         #   } -Authentication Negotiate -ErrorAction Continue
         # continue-on-error: true
-# use actions/checkout@v4
-# try to use the $TARGET_MACHINE variable not secret.Varname
-# use jobs, multi-job strategies
-  run-tests:
-      runs-on: [self-hosted, windows]
+  # use actions/checkout@v4
+  # try to use the $TARGET_MACHINE variable not secret.Varname
+  # use jobs, multi-job strategies
+  run-next:
+    runs-on: [self-hosted, windows]
 
-      steps:
-        - name: Logging Information
-          run: |
-            Write-Host "Working fine"
+    steps:
+      - name: Logging Information
+        run: |
+          Write-Host "Working fine"
