@@ -10,7 +10,7 @@ env:
 
 jobs:
   close-java-processes:
-    uses: ./.github/workflows/ClosePendingJava_Reusable.yml@main
+    uses: meer1616/Testing-Jmeter/.github/workflows/ClosePendingJava_Reusable.yml@main
 
     # runs-on: [self-hosted, windows]
 
@@ -38,6 +38,7 @@ jobs:
   # use jobs, multi-job strategies
   run-next:
     runs-on: [self-hosted, windows]
+    needs: close-java-processes
 
     steps:
       - name: Logging Information
