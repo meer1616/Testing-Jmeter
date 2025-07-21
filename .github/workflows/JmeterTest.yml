@@ -11,7 +11,11 @@ env:
 jobs:
   close-java-processes:
     uses: meer1616/Testing-Jmeter/.github/workflows/ClosePendingJava_Reusable.yml@main
-
+    secrets:
+      jm-machine: ${{ secrets.JMETER_MACHINE }}
+      login-user: ${{ secrets.LOGIN_USER }}
+      login-password: ${{ secrets.LOGIN_PASSWORD }}
+      script-path: ${{ secrets.POWERSHELL_SCRIPT_PATH }}
     # runs-on: [self-hosted, windows]
 
     # steps:

@@ -1,31 +1,34 @@
-name: Performance Tests (.NET + JMeter)
+name: Close Pending Java Processes
 
 on:
   workflow_call:
-
-env:
-  TARGET_MACHINE: ${{ secrets.JMETER_MACHINE }}
-  USERNAME: ${{ secrets.LOGIN_USER }}
-  PASSWORD: ${{ secrets.LOGIN_PASSWORD }}
+    secrets:
+      jm-machine:
+        required: true
+      login-user:
+        required: true
+      login-password:
+        required: true
+      script-path:
+        required: true
 
 jobs:
-  run-tests:
+  close-java:
     runs-on: [self-hosted, windows]
-
     steps:
-      - name: Close pending Java processes (remote)
+      - name: Close Java Processes
         shell: pwsh
         run: |
-          Write-Host "Closing pending Java processes on TARGET_MACHINE: ${{ env.TARGET_MACHINE }}"
-          Write-Host "Username : ${{ env.USERNAME }}"
-          $secpasswd = ConvertTo-SecureString "${{ env.LOGIN_PASSWORD }}" -AsPlainText -Force
-          $creds = New-Object System.Management.Automation.PSCredential ("${{ env.USERNAME }}", $secpasswd)
+          Write-Host "Running on: ${{ secrets.jm-machine }}"
+          Write-Host "User: ${{ secrets.login-user }}"
 
-          $scriptPath = "${{ env.POWERSHELL_SCRIPT_PATH }}\Jmeter\JmeterServer.ps1"
+          $secpasswd = ConvertTo-SecureString "${{ secrets.login-password }}" -AsPlainText -Force
+          $creds = New-Object System.Management.Automation.PSCredential ("${{ secrets.login-user }}", $secpasswd)
 
-          Invoke-Command -ComputerName "${{ env.TARGET_MACHINE }}" -Credential $creds -ScriptBlock {
+          $scriptPath = "${{ secrets.script-path }}\\Jmeter\\JmeterServer.ps1"
+
+          Invoke-Command -ComputerName "${{ secrets.jm-machine }}" -Credential $creds -ScriptBlock {
               . $using:scriptPath
               CloselocalProcess
           } -Authentication Negotiate -ErrorAction Continue
-
         continue-on-error: true
