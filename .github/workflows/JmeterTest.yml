@@ -17,20 +17,28 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Close pending Java processes (remote)
-        shell: pwsh
-        run: |
-          Write-Host "Closing pending Java processes on TARGET_MACHINE: ${{ env.TARGET_MACHINE }}"
-          Write-Host "Username : ${{ env.USERNAME }}"
-          $secpasswd = ConvertTo-SecureString "${{ secrets.LOGIN_PASSWORD }}" -AsPlainText -Force
-          $creds = New-Object System.Management.Automation.PSCredential ("${{ secrets.LOGIN_USER }}", $secpasswd)
+        uses: meer1616/Testing-Jmeter/.github/workflows/ClosePendingJava_Reusable.yml@main
+        # shell: pwsh
+        # run: |
+        #   Write-Host "Closing pending Java processes on TARGET_MACHINE: ${{ env.TARGET_MACHINE }}"
+        #   Write-Host "Username : ${{ env.USERNAME }}"
+        #   $secpasswd = ConvertTo-SecureString "${{ env.LOGIN_PASSWORD }}" -AsPlainText -Force
+        #   $creds = New-Object System.Management.Automation.PSCredential ("${{ env.USERNAME }}", $secpasswd)
 
-          $scriptPath = "${{ secrets.POWERSHELL_SCRIPT_PATH }}\Jmeter\JmeterServer.ps1"
+        #   $scriptPath = "${{ env.POWERSHELL_SCRIPT_PATH }}\Jmeter\JmeterServer.ps1"
 
-          Invoke-Command -ComputerName "${{ secrets.JMETER_MACHINE }}" -Credential $creds -ScriptBlock {
-              . $using:scriptPath
-              CloselocalProcess
-          } -Authentication Negotiate -ErrorAction Continue
-        continue-on-error: true
+        #   Invoke-Command -ComputerName "${{ env.TARGET_MACHINE }}" -Credential $creds -ScriptBlock {
+        #       . $using:scriptPath
+        #       CloselocalProcess
+        #   } -Authentication Negotiate -ErrorAction Continue
+        # continue-on-error: true
 # use actions/checkout@v4
 # try to use the $TARGET_MACHINE variable not secret.Varname
 # use jobs, multi-job strategies
+  run-tests:
+      runs-on: [self-hosted, windows]
+
+      steps:
+        - name: Logging Information
+          run: |
+            Write-Host "Working fine"
