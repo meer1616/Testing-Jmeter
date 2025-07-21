@@ -20,6 +20,7 @@ jobs:
         shell: pwsh
         run: |
           Write-Host "Closing pending Java processes on TARGET_MACHINE: ${{ env.TARGET_MACHINE }}"
+          Write-Host "Username : ${{ env.USERNAME }}"
           $secpasswd = ConvertTo-SecureString "${{ secrets.LOGIN_PASSWORD }}" -AsPlainText -Force
           $creds = New-Object System.Management.Automation.PSCredential ("${{ secrets.LOGIN_USER }}", $secpasswd)
 
